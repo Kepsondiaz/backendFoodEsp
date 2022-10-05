@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('nomResto');
             $table->string('adressResto');
-            $table->string('notesResto');
+            $table->integer('notesResto');
+            $table->string('imagesResto');
             $table->timestamps();
         });
     }
