@@ -10,6 +10,12 @@ class Restaurants extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'nomResto',
+        'adressResto',
+        'notesResto',
+        'imagesResto'
+    ];
     public function menus()
     {
         return $this->morphToMany(Menus::class, 'menus_restaurants');
