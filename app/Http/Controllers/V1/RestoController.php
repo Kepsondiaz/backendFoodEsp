@@ -16,6 +16,12 @@ class RestoController extends Controller
     public function index()
     {
         $restos = Restaurants::OrderbyDesc('id')->get(); 
+        if(!$restos)
+        {
+            return response([
+                'message' => 'Restaurants not found.'
+            ], 403);
+        }
         return response([$restos], 200); 
     }
 
@@ -27,7 +33,23 @@ class RestoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $valideAttr = $request->validate([
+            'nomResto' => 'required|String',
+            'adressResto' => 'required|String',
+            'imagesResto' => 'required|String'
+        ]);
+
+        Restaurants::create([
+            'nomResto' => $valideAttr['nomResto'],
+            'adressResto' => $valideAttr['adressResto'],
+            'imagesResto' => $valideAttr['imagesResto'],
+            'notesResto' => 0
+        ]);
+
+        return response([
+            'message' => 'Restaurant created'
+        ], 200);
+
     }
 
     /**
@@ -36,9 +58,9 @@ class RestoController extends Controller
      * @param  \App\Models\Restaurants  $restaurants
      * @return \Illuminate\Http\Response
      */
-    public function show(Restaurants $restaurants)
+    public function show($id)
     {
-        $restos = Restaurants::where('id', $restaurants)->get(); 
+        $restos = Restaurants::where('id', $id)->get(); 
         return response([$restos], 200); 
     }
 
@@ -49,9 +71,21 @@ class RestoController extends Controller
      * @param  \App\Models\Restaurants  $restaurants
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Restaurants $restaurants)
+    public function update(Request $request, $id)
     {
-        //
+        $restos = Restaurants::find($id); 
+        
+        $valideAttr = $request->validate([
+            'notesResto' => 'Integer'
+        ]);
+
+        $restos->update([
+            'notesResto' => $valideAttr['notesResto']
+        ]);
+
+        return response([
+            'message' => 'Notes ajoutée avec succees'
+        ]);
     }
 
     /**
