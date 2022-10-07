@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
+use App\Models\Menus;
 use App\Models\Restaurants;
 use Illuminate\Http\Request;
 
@@ -25,6 +26,32 @@ class RestoController extends Controller
         return response([$restos], 200); 
     }
 
+
+    public function addMenu(Request $request, $id)
+    {
+        $resto = Restaurants::find($id); 
+
+        $valideAttr = $request->validate([
+            'nomMenus' => 'required|String',
+            'prixMenus' => 'required',
+            'composantsMenus' => 'required|String'
+        ]);
+
+        $menus = Menus::create([
+            'nomMenus' => $valideAttr['nomMenus'], 
+            'prixMenus' => $valideAttr['prixMenus'],
+            'composantsMenus' => $valideAttr['composantsMenus'],
+        ]);
+
+        $resto->menus()->attach($menus->id);
+
+        return response([
+            'message: ' => 'Menus ajouté'
+        ], 200); 
+
+
+    }
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -36,7 +63,7 @@ class RestoController extends Controller
         $valideAttr = $request->validate([
             'nomResto' => 'required|String',
             'adressResto' => 'required|String',
-            'imagesResto' => 'required|String'
+            'imagesResto' => 'required|String',
         ]);
 
         Restaurants::create([
@@ -60,7 +87,8 @@ class RestoController extends Controller
      */
     public function show($id)
     {
-        $restos = Restaurants::where('id', $id)->get(); 
+         $restos = Restaurants::with('menus')->where('id', $id)->get(); 
+        // $restos = $restos = Restaurants::where('id', $id)->get(); 
         return response([$restos], 200); 
     }
 
