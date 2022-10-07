@@ -11,13 +11,15 @@ class Restaurants extends Model
     use HasFactory;
 
     protected $fillable = [
+        'restaurant_id',
         'nomResto',
         'adressResto',
         'notesResto',
         'imagesResto'
     ];
+    protected $primary =  'restaurant_id';
     public function menus()
     {
-        return $this->morphToMany(Menus::class, 'menus_restaurants');
+        return $this->belongsToMany(Menus::class);
     }
 }
