@@ -10,12 +10,19 @@ use Illuminate\Database\Eloquent\Model;
 class Menus extends Model
 {
     use HasFactory;
-    public function restaurant()
+
+    protected $fillable = [
+        'nomMenus',
+        'prixMenus', 
+        'composantsMenus'
+    ];
+    protected $primary = 'menu_id'; 
+    public function restaurants()
     {
-        return $this->morphToMany(Restaurants::class, 'menus_restaurants');
+        return $this->belongsToMany(Restaurants::class);
     }
-    public function commande()
+    public function commandes()
     {
-        return $this->morphToMany(Commandes::class, 'commandes_menus');
+        return $this->belongsToMany(Commandes::class);
     }
 }
