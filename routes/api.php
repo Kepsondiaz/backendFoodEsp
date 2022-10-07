@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::apiResource('resto', 'App\Http\Controllers\V1\RestoController'); //routes for restaurants 
+Route::post('resto/{id}', 'App\Http\Controllers\V1\RestoController@addMenu');
 
 Route::apiResource('/menus', 'App\Http\Controllers\V1\MenusController'); //routes for menus of restaurants
 
