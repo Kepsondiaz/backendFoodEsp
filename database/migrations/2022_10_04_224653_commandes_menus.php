@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('commandes_menus', function (Blueprint $table) {
             $table->id();
             $table->foreignId('commande_id')->constrained('commandes');
-            $table->foreignId('menuse_id')->constrained('menuses');
+            $table->foreignId('menus_id')->constrained('menuses');
             $table->timestamps();
         });
     }
