@@ -12,6 +12,6 @@ class Commandes extends Model
 
     public function menus()
     {
-        return $this->morphToMany(Menus::class, 'commandes_menus');
+        return $this->belongsToMany(Menus::class);
     }
 }
